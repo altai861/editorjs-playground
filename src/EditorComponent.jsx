@@ -6,6 +6,13 @@ import Embed from '@editorjs/embed';
 import SimpleImage from '@editorjs/simple-image';
 import LinkTool from '@editorjs/link';
 import List from '@editorjs/list';
+import Quote from "@editorjs/quote"
+import NestedList from '@editorjs/nested-list';
+import Checklist from '@editorjs/checklist';
+import Delimiter from '@editorjs/delimiter';
+import CodeTool from '@editorjs/code';
+import Marker from '@editorjs/marker';
+import InlineCode from '@editorjs/inline-code';
 
 
 const DEFAULT_INITIAL_DATA = {
@@ -33,22 +40,60 @@ const EditorComponent = () => {
       },
       autofocus: true,
       data: DEFAULT_INITIAL_DATA,
-      onChange: async () => {
-        let content = await editor.saver.save();
-        console.log(content);
-      },
       tools: {
-        header: Header,
-        table: Table,
+        header: {
+          class: Header,
+          inlineToolbar: true
+        },
+        table: {
+          class: Table,
+          inlineToolbar: true
+        },
         embed: {
           class: Embed,
           inlineToolbar: true,
         },
-        image: SimpleImage,
-        link: LinkTool,
-        list: List
+        image: {
+          class: SimpleImage,
+          inlineToolbar: true
+        },
+        list: {
+          class: List,
+          inlineToolbar: true
+        },
+        quote: {
+          class: Quote,
+          inlineToolbar: true,
+        },
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        delimiter: {
+          class: Delimiter,
+          inlineToolbar: true,
+        },
+        codetool: {
+          class: CodeTool,
+          inlineToolbar: true,
+        },
+        marker: {
+          class: Marker,
+          inlineToolbar: true,
+        },
+        inlinecode: {
+          class: InlineCode,
+          inlineToolbar: true,
+        },
       }
     })
+  }
+
+  const save = async () => {
+    if (ejInstance.current) {
+      const content = await ejInstance.current.saver.save()
+      console.log(content);
+    }
   }
 
   useEffect(() => {
@@ -62,11 +107,15 @@ const EditorComponent = () => {
     }
   }, [])
 
+  
   return (
     <>
       <div id="editorjs">
 
       </div>
+      <button onClick={save}>
+        Save
+      </button>
     </>
   )
 };
